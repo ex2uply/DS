@@ -2,6 +2,7 @@ package com.dataStructures.LL.theory;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class LL {
@@ -13,6 +14,7 @@ public class LL {
         this.size= 0;
     }
 
+    @NoArgsConstructor
     private static class Node{
 
         int value;
@@ -133,5 +135,37 @@ public class LL {
     catch (Exception e){
         System.out.println("Not found");
     }
+    }
+
+    private Node insertRecInternal(int val, int index , Node node){
+        if(index>size){
+            return head;
+        }
+        if(index == 0){
+            Node temp = new Node(val,node);
+            size++;
+            return temp;
+        }
+        node.next = insertRecInternal(val , index-1,node.next);
+        return node;
+    }
+
+    public void insertRec(int val,int index){
+        head = insertRecInternal(val,index,head);
+    }
+
+    private Node deleteDuplicates(Node head) {
+        Node node = head;
+        while(node.next!=null){
+            while(node.next.value==node.value){
+                node.next = node.next.next;
+                size--;
+            }
+            node = node.next;
+        }
+        return node;
+    }
+    public void deleteDuplicate(){
+        Node node = deleteDuplicates(head);
     }
 }
